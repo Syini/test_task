@@ -30,10 +30,10 @@ app.post("/getInfo", urlencodedParser, async function (req, res) {
     method: 'GET',
     headers: {'user-agent': 'node.js'}
   }
-  
+
   let response = await rp(options, function (err, response,body) {
   })
-  
+
   let helper = JSON.parse(response)
 
   let options1 = {
@@ -42,12 +42,13 @@ app.post("/getInfo", urlencodedParser, async function (req, res) {
     headers: {'user-agent': 'node.js',
     authorization: "Syini"}
   }
-  
+
   let response2 = await rp(options1, function (err, response,body) {
   })
-  //console.log(response2)
-  res.render('getInfo',{name:req.body.userName, url: helper.html_url, title:'Repositories', repositories_amount: helper.public_repos})
-  
+  console.log(response2)
+
+  res.render('getInfo',{qwe:'qwer',reps: response2, name:req.body.userName, url: helper.html_url, title:'Repositories', repositories_amount: helper.public_repos})
+
   Handlebars.registerHelper('card', function(context, options) {
     let ret = ''
     context = JSON.parse(response2)
@@ -57,7 +58,7 @@ app.post("/getInfo", urlencodedParser, async function (req, res) {
   return ret
 
   })
-  
+
 })
 app.get('/getInfo/:userName', urlencodedParser, async function (req, res) {
 
@@ -91,10 +92,7 @@ app.get('/getInfo/:userName', urlencodedParser, async function (req, res) {
   let response2 = await rp(options1, function (err, response,body) {
   })
   //console.log(JSON.parse(response2))
-  console.log(req.query.updated_value)
-  console.log(JSON.parse(response2)[4].updated_at)
-  console.log(req.query.updated_value < JSON.parse(response2)[4].updated_at)
-  res.render('getInfo',{name:req.params.userName, url: helper.html_url, title:'Repositories', repositories_amount: helper.public_repos})
+  res.render('getInfo',{qwe:'qwer',reps: JSON.parse(response2), name:req.params.userName, url: helper.html_url, title:'Repositories', repositories_amount: helper.public_repos})
 
   Handlebars.registerHelper('card', function(context, options) {
     let ret = ''

@@ -41,7 +41,7 @@
 <a href="{{url}}"><h2>{{name}}</h2></a>
 <h4 id="title"><b>{{title}}</b></h4>
 <p>Amount: {{repositories_amount}}</p>
-<form action = '/getInfo/{{name}}' method="get">
+<form action = '#' method="get">
     <p><b>Filter</b></p>
     <p><input id ='Issues'name="Issues" type="checkbox"> Has open issues</p>
     <p><input id ='Topics'name="Topics" type="checkbox"> Has Topics</p>
@@ -55,6 +55,7 @@
     <p><input id='language_value' name="language_value" class="value"></p>
     <p><input type="submit" value="Выбрать" ></p>
 </form>
+
 <div class="flexbox">
 {{#card nav}}
     <h4 id="title"><a href="{{svn_url}}">{{name}}</a></h4>
@@ -65,10 +66,10 @@
     <p>Stars: {{stargazers_count}}</p>
 {{/card}}
 </div>
+<script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
-    console.log(req)
-    console.log('{{language}}')
+    console.log(JSON.parse('{{reps}}'.replace(/&quot;/g,'"')))
     $("#starred").on("change", function() {
       if($('#starred').is(':checked')) {
           $('#starred_value').css('display', 'flex')
@@ -101,6 +102,7 @@
             $('#language_value').css('display', 'none')
         }
     });
+
 </script>
 </body>
 </html>
