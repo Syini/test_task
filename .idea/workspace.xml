@@ -37,16 +37,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="handlebars" value="2698" />
-          <entry key="js" value="1899" />
+          <entry key="handlebars" value="2724" />
+          <entry key="js" value="2258" />
           <entry key="json" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Handlebars/Mustache" value="2698" />
+          <entry key="Handlebars/Mustache" value="2724" />
           <entry key="JSON" value="17" />
-          <entry key="JavaScript" value="1899" />
+          <entry key="JavaScript" value="2258" />
         </counts>
       </usages-collector>
     </session>
@@ -65,8 +65,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$USER_HOME$/test_task/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="47" column="23" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
+            <state relative-caret-position="603">
+              <caret line="122" column="41" selection-start-line="122" selection-start-column="41" selection-end-line="122" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -74,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/test_task/views/getInfo.handlebars">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="71" column="62" selection-start-line="71" selection-start-column="62" selection-end-line="71" selection-end-column="62" />
+            <state relative-caret-position="167">
+              <caret line="51" column="60" selection-start-line="51" selection-start-column="60" selection-end-line="51" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -112,11 +112,13 @@
     <findStrings>
       <find>check</find>
       <find>che</find>
-      <find>cons</find>
       <find>&lt;a&gt;</find>
       <find>console.log(document.getElementsByName('starred'))</find>
       <find>var</find>
       <find>radi</find>
+      <find>conso</find>
+      <find>cons</find>
+      <find>consol</find>
     </findStrings>
     <replaceStrings>
       <replace>let</replace>
@@ -132,8 +134,8 @@
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/views/getInfo.handlebars" />
         <option value="$USER_HOME$/test_task/views/home.handlebars" />
-        <option value="$USER_HOME$/test_task/app.js" />
         <option value="$USER_HOME$/test_task/views/getInfo.handlebars" />
+        <option value="$USER_HOME$/test_task/app.js" />
       </list>
     </option>
   </component>
@@ -215,12 +217,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1563877130879</updated>
-      <workItem from="1563877132116" duration="38505000" />
+      <workItem from="1563877132116" duration="41267000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38505000" />
+    <option name="totallyTimeSpent" value="41267000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="-2" width="958" height="1082" extended-state="4" />
@@ -282,15 +284,15 @@
     </entry>
     <entry file="file://$USER_HOME$/test_task/views/getInfo.handlebars">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="71" column="62" selection-start-line="71" selection-start-column="62" selection-end-line="71" selection-end-column="62" />
+        <state relative-caret-position="167">
+          <caret line="51" column="60" selection-start-line="51" selection-start-column="60" selection-end-line="51" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/test_task/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="47" column="23" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
+        <state relative-caret-position="603">
+          <caret line="122" column="41" selection-start-line="122" selection-start-column="41" selection-end-line="122" selection-end-column="41" />
         </state>
       </provider>
     </entry>
