@@ -9,15 +9,23 @@
             color: black;
         }
         .flexbox{
-            display: flex;
-            flex-direction: row;
-            jistify-content: flex-start;
-            align-content: flex-start;
+            display: flex; /*activate power*/
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: stretch;
+        }
+        .value{
+            display: none;
         }
         .card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
-            margin: 10px;
+            margin: 5px;
+
+            border-radius: 3px;
         }
 
         .card:hover {
@@ -33,6 +41,20 @@
 <a href="{{url}}"><h2>{{name}}</h2></a>
 <h4 id="title"><b>{{title}}</b></h4>
 <p>Amount: {{repositories_amount}}</p>
+<form action = '/getInfo/{{name}}' method="get">
+    <p><b>Filter</b></p>
+    <p><input id ='Issues'name="Issues" type="checkbox"> Has open issues</p>
+    <p><input id ='Topics'name="Topics" type="checkbox"> Has Topics</p>
+    <p><input id ='starred'name="starred" type="checkbox"> Starred</p>
+    <p><input id='starred_value' name="starred_value" class="value" ></p>
+    <p><input id="updated" name="updated" type="checkbox">Updated</p>
+    <p><input id='updated_value' name="updated_value" type="date" class="value"></p>
+    <p><input id="type" name="type" type="checkbox">type</p>
+    <p><input id='type_value' name="type_value" class="value"></p>
+    <p><input id="language" name="language" type="checkbox">Language</p>
+    <p><input id='language_value' name="language_value" class="value"></p>
+    <p><input type="submit" value="Выбрать" ></p>
+</form>
 <div class="flexbox">
 {{#card nav}}
     <h4 id="title"><a href="{{svn_url}}">{{name}}</a></h4>
@@ -43,6 +65,42 @@
     <p>Stars: {{stargazers_count}}</p>
 {{/card}}
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    console.log(req)
+    console.log('{{language}}')
+    $("#starred").on("change", function() {
+      if($('#starred').is(':checked')) {
+          $('#starred_value').css('display', 'flex')
+      }
+      else{
+          $('#starred_value').css('display', 'none')
+      }
+    });
+    $("#updated").on("change", function() {
+        if($('#updated').is(':checked')) {
+            $('#updated_value').css('display', 'flex')
+        }
+        else{
+            $('#updated_value').css('display', 'none')
+        }
+    });
+    $("#type").on("change", function() {
+        if($('#type').is(':checked')) {
+            $('#type_value').css('display', 'flex')
+        }
+        else{
+            $('#type_value').css('display', 'none')
+        }
+    });
+    $("#language").on("change", function() {
+        if($('#language').is(':checked')) {
+            $('#language_value').css('display', 'flex')
+        }
+        else{
+            $('#language_value').css('display', 'none')
+        }
+    });
+</script>
 </body>
 </html>
