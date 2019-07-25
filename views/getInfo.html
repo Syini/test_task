@@ -122,9 +122,7 @@
       let check = await fetch('/json').then(response => {return response})
       return check
   }
-  let helper = [1,9,17,1490,19,27,10145,1]
-  console.log(helper.sort())
-  console.log(helper.sort((a, b) => a-b))
+
   let check = fetch('/json',{method:'GET'}).then(response => response.text())
       .then(data => {
           data = JSON.parse(data);
