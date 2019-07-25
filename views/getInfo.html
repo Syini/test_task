@@ -122,7 +122,6 @@
         if (url.issues) {
           reps = reps.filter(item => item.has_issues === true)
         }
-        console.log(url.language === 'on')
         if(url.topics){
           reps = reps.filter(item => item.topics !== [])
         }
@@ -130,7 +129,11 @@
           reps = reps.filter(item => item.stargazers_count > url.starred_value)
         }
         if(url.updated){
-          reps = reps.filter(item => item.updated_at > url.updated_value)
+          reps.forEach(function (item) {
+            item.updated_at = new Date(item.updated_at)
+          })
+          console.log(reps[0].updated_at)
+          reps = reps.filter(item => item.updated_at > new Date(url.updated_value))
         }
         if(url.fork)
         {
@@ -138,18 +141,19 @@
         }
         if(url.language){
           console.log(reps[3].language.toLowerCase())
-          console.log(url.language)
-          console.log(reps[3].language.toLowerCase() === url.language)
-          reps.filter(item => item.language === url.language_value)
+          console.log(url.language_value)
+          console.log(reps[3].language.toLowerCase() === url.language_value)
+
+          reps = reps.filter(item => item.language !== null && item.language.toLowerCase() === 'javascript')
         }
         console.log(reps)
-      for (let item in data.reps) {
+      for (let item in reps) {
         ret += "<div class='card'  >" + "<div class='container'>" +
           `<a href = ${reps[item].svn_url}><h4>${reps[item].name}</h4></a>` +
           `<p>Description: ${reps[item].description} </p>` +
           `<p>Fork: ${reps[item].fork}</p>` +
           `<p>Language: ${reps[item].language}</p>` +
-          `<p>Updated at: ${reps[item].updated_at}</p>` +
+          `<p>Updated at: ${data.reps[item].updated_at}</p>` +
           `<p>Stars: ${reps[item].stargazers_count}</p>` +
           "</div>" + "</div></a>"
       }
