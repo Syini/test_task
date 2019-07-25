@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+    <meta charset="utf-8" />
+    <style>
+        a,a:visited,a:hover{
+            text-decoration: none;
+            color: black;
+        }
+        .flexbox{
+            display: flex; /*activate power*/
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: stretch;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            margin: 5px;
+            width: 300px;
+            border-radius: 3px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+    </style>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<a href="#"><h2></h2></a>
+<script>
+
+</script>
+<h4 id="title"><b></b></h4>
+<p id ='amount'></p>
+<div id="form">
+    <form id = 'form1' action = '/getInfo' method="get">
+    <p><b>Filter</b></p>
+    <p><input id ='Issues'name="issues" type="checkbox"> Has open issues</p>
+    <p><input id ='Topics'name="topics" type="checkbox"> Has Topics</p>
+    <p><input id ='starred'name="starred" type="checkbox"> Starred</p>
+    <p><input id='starred_value' name="starred_value" class="value" ></p>
+    <p><input id="updated" name="updated" type="checkbox">Updated</p>
+    <p><input id='updated_value' name="updated_value" type="date" class="value"></p>
+    <p><input id="fork" name="fork" type="checkbox">Fork</p>
+    <p><input id="language" name="language" type="checkbox">Language</p>
+    <p><input id='language_value' name="language_value" class="value"></p>
+    <p><input type="submit" value="Choose" ></p>
+</form>
+
+</div>
+
+
+<div id = 'flex' class="flexbox">
+    <h4 id="title_rep"><a href="{{svn_url}}">{{name}}</a></h4>
+    <p>Description: {{description}}</p>
+    <p>Fork: {{fork}}</p>
+    <p>Language: {{language}}</p>
+    <p>Updated at: {{updated_at}}</p>
+    <p>Stars: {{stargazers_count}}</p>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script defer>
+  function getAllUrlParams(url) {
+    var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+    var obj = {};
+    if (queryString) {
+      queryString = queryString.split('#')[0];
+      var arr = queryString.split('&');
+
+      for (var i = 0; i < arr.length; i++) {
+        var a = arr[i].split('=');
+        var paramName = a[0];
+        var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+        paramName = paramName.toLowerCase();
+        if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
+        if (paramName.match(/\[(\d+)?\]$/)) {
+          var key = paramName.replace(/\[(\d+)?\]/, '');
+          if (!obj[key]) obj[key] = [];
+          if (paramName.match(/\[\d+\]$/)) {
+            var index = /\[(\d+)\]/.exec(paramName)[1];
+            obj[key][index] = paramValue;
+          } else {
+            obj[key].push(paramValue);
+          }
+        } else {
+          if (!obj[paramName]) {
+            obj[paramName] = paramValue;
+          } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+            obj[paramName] = [obj[paramName]];
+            obj[paramName].push(paramValue);
+          } else {
+            obj[paramName].push(paramValue);
+          }
+        }
+      }
+    }
+
+    return obj;
+  }
+  url = getAllUrlParams(window.location.href)
+  $.get('/json', function (data, status) {
+      let user = data.userName
+      var document1 = document.getElementById('form').innerHTML.toString().replace('getInfo', `getInfo/${data.userName}`)
+      document.getElementById('form').innerHTML = document1
+      document.getElementById('title').innerText = data.userName
+      document.getElementById('amount').innerText = 'Reps:' + data.reps.length
+      console.log(data)
+      let ret = ''
+        let reps = data.reps
+        if (url.issues) {
+          reps = reps.filter(item => item.has_issues === true)
+        }
+        console.log(url.language === 'on')
+        if(url.topics){
+          reps = reps.filter(item => item.topics !== [])
+        }
+        if(url.topics){
+          reps = reps.filter(item => item.stargazers_count > url.starred_value)
+        }
+        if(url.updated){
+          reps = reps.filter(item => item.updated_at > url.updated_value)
+        }
+        if(url.fork)
+        {
+          reps = reps.filter(item => item.fork === true)
+        }
+        if(url.language){
+          console.log(reps[3].language.toLowerCase())
+          console.log(url.language)
+          console.log(reps[3].language.toLowerCase() === url.language)
+          reps.filter(item => item.language === url.language_value)
+        }
+        console.log(reps)
+      for (let item in data.reps) {
+        ret += "<div class='card'  >" + "<div class='container'>" +
+          `<a href = ${reps[item].svn_url}><h4>${reps[item].name}</h4></a>` +
+          `<p>Description: ${reps[item].description} </p>` +
+          `<p>Fork: ${reps[item].fork}</p>` +
+          `<p>Language: ${reps[item].language}</p>` +
+          `<p>Updated at: ${reps[item].updated_at}</p>` +
+          `<p>Stars: ${reps[item].stargazers_count}</p>` +
+          "</div>" + "</div></a>"
+      }
+      document.getElementById('flex').innerHTML = ret
+
+
+
+  });
+</script>
+<script defer>
+  //   $('#starred_value,#updated_value,#language_value').hide()
+  // $("#starred").on("change", function() {
+  //   if($('#starred').is(':checked')) {
+  //     console.log('adsasdasdqwe')
+  //   }
+  //   else{
+  //     $('#starred_value').css('display', 'none')
+  //   }
+  // });
+  //   $("#starred").on("change", function() {
+  //     if($('#starred').is(':checked')) {
+  //         $('#starred_value').css('display', 'flex')
+  //     }
+  //     else{
+  //         $('#starred_value').css('display', 'none')
+  //     }
+  //   })
+  //   $("#updated").on("change", function() {
+  //       if($('#updated').is(':checked')) {
+  //           $('#updated_value').css('display', 'flex')
+  //       }
+  //       else{
+  //           $('#updated_value').css('display', 'none')
+  //       }
+  //   });
+  //   $("#type").on("change", function() {
+  //       if($('#type').is(':checked')) {
+  //           $('#type_value').css('display', 'flex')
+  //       }
+  //       else{
+  //           $('#type_value').css('display', 'none')
+  //       }
+  //   });
+  //   $("#language").on("change", function() {
+  //       if($('#language').is(':checked')) {
+  //           $('#language_value').css('display', 'flex')
+  //       }
+  //       else{
+  //           $('#language_value').css('display', 'none')
+  //       }
+  //   });
+
+
+</script>
+</body>
+</html>
