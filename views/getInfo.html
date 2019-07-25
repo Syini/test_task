@@ -131,6 +131,9 @@
       return first-second
   }
   url = getAllUrlParams(window.location.href)
+  fetch('/json', function (data,status) {
+      console.log(data)
+  })
   $.get('/json', function (data, status) {
       let user = data.userName
       var document1 = document.getElementById('form').innerHTML.toString().replace('getInfo', `getInfo/${data.userName}`)
@@ -138,6 +141,9 @@
       document.getElementById('title').innerText = data.userName
       document.getElementById('amount').innerText = 'Reps:' + data.reps.length
       console.log(data)
+      let check = [1,2,3,4]
+      check = check.reverse()
+      console.log(check)
       let ret = ''
       let reps = data.reps
       if (url.issues) {
@@ -161,35 +167,35 @@
           reps = reps.filter(item => item.fork === true)
         }
       if(url.language){
-          console.log(reps[3].language.toLowerCase())
-          console.log(url.language_value)
-          console.log(reps[3].language.toLowerCase() === url.language_value)
-
           reps = reps.filter(item => item.language !== null && item.language.toLowerCase() === 'javascript')
         }
       if(url.sort === 'name'){
           reps.sort(sortByName)
-          if(url.sortC === 'descending') {
-              reps.reverse()
+          if(url.sortc === 'descending') {
+              reps= reps.reverse()
           }
       }
       if(url.sort === 'stars'){
           reps.sort(sortByStars)
-          if(url.sortC === 'descending') {
-              reps.reverse()
+          console.log(url)
+          if(url.sortc === 'descending') {
+              console.log('check')
+              console.log(reps)
+              reps= reps.reverse()
+              console.log(reps)
           }
       }
       if(url.sort === 'open_issues'){
           reps.sort(sortByOpenIssues)
-          if(url.sortC === 'descending') {
-              reps.reverse()
+          if(url.sortc === 'descending') {
+              reps= reps.reverse()
           }
       }
       if(url.sort === 'updated_date'){
           console.log(reps)
           reps.sort(sortByUpdatedDate)
-          if(url.sortC === 'descending') {
-              reps.reverse()
+          if(url.sortc === 'descending') {
+              reps= reps.reverse()
           }
       console.log(reps)
       }
