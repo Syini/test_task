@@ -118,36 +118,17 @@
     return obj;
   }
   function sortByName(a, b){
-      let nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
-      if (nameA < nameB)
-          return -1;
-      if (nameA > nameB)
-          return 1;
-      return 0;
+      return a-b
   }
   function sortByStars(a, b){
-      let first=a.stargazers_count, second=b.stargazers_count
-      if (a < b)
-          return -1;
-      if (a > b)
-          return 1;
-      return 0;
+      return a-b
   }
   function sortByOpenIssues(a, b){
-      let first=a.open_issues, second=b.open_issues
-      if (a < b)
-          return -1;
-      if (a > b)
-          return 1;
-      return 0;
+      return a-b
   }
   function sortByUpdatedDate(a, b){
       let first=new Date(a.updated_at), second=new Date(b.updated_at)
-      if (a < b)
-          return -1;
-      if (a > b)
-          return 1;
-      return 0;
+      return first-second
   }
   url = getAllUrlParams(window.location.href)
   $.get('/json', function (data, status) {
@@ -205,10 +186,12 @@
           }
       }
       if(url.sort === 'updated_date'){
+          console.log(reps)
           reps.sort(sortByUpdatedDate)
           if(url.sortC === 'descending') {
               reps.reverse()
           }
+      console.log(reps)
       }
         console.log(reps)
       for (let item in reps) {
