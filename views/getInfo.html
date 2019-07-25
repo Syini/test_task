@@ -41,7 +41,6 @@
 <a href="#"><h2></h2></a>
 <h4 id="title"><b></b></h4>
 <p id ='amount'></p>
-<input type="checkbox" id="one" onchange="fun1()">
 <div id="form">
     <form id = 'form1' action = '/getInfo' method="get">
     <p><b>Filter</b></p>
@@ -114,15 +113,6 @@
 
     return obj;
   }
-  function sortByName(a, b){
-      return a-b
-  }
-  function sortByStars(a, b){
-      return a-b
-  }
-  function sortByOpenIssues(a, b){
-      return a-b
-  }
   function sortByUpdatedDate(a, b){
       let first=new Date(a.updated_at), second=new Date(b.updated_at)
       return first-second
@@ -132,16 +122,18 @@
       let check = await fetch('/json').then(response => {return response})
       return check
   }
+  let helper = [1,9,17,1490,19,27,10145,1]
+  console.log(helper.sort())
+  console.log(helper.sort((a, b) => a-b))
   let check = fetch('/json',{method:'GET'}).then(response => response.text())
       .then(data => {
           data = JSON.parse(data);
           let user = data.userName
-          console.log(user)
+
           var document1 = document.getElementById('form').innerHTML.toString().replace('getInfo', `getInfo/${data.userName}`)
           document.getElementById('form').innerHTML = document1
           document.getElementById('title').innerText = data.userName
           document.getElementById('amount').innerText = 'Reps:' + data.reps.length
-          console.log(data)
           let ret = ''
           let reps = data.reps
           if (url.issues) {
@@ -157,7 +149,6 @@
               reps.forEach(function (item) {
                   item.updated_at = new Date(item.updated_at)
               })
-              console.log(reps[0].updated_at)
               reps = reps.filter(item => item.updated_at > new Date(url.updated_value))
           }
           if(url.fork)
@@ -168,36 +159,29 @@
               reps = reps.filter(item => item.language !== null && item.language.toLowerCase() === 'javascript')
           }
           if(url.sort === 'name'){
-              reps.sort(sortByName)
+              reps.sort((a, b) => a-b)
               if(url.sortc === 'descending') {
                   reps= reps.reverse()
               }
           }
           if(url.sort === 'stars'){
-              reps.sort(sortByStars)
-              console.log(url)
+              reps.sort((a, b) => a-b)
               if(url.sortc === 'descending') {
-                  console.log('check')
-                  console.log(reps)
                   reps= reps.reverse()
-                  console.log(reps)
               }
           }
           if(url.sort === 'open_issues'){
-              reps.sort(sortByOpenIssues)
+              reps.sort((a, b) => a-b)
               if(url.sortc === 'descending') {
                   reps= reps.reverse()
               }
           }
           if(url.sort === 'updated_date'){
-              console.log(reps)
               reps.sort(sortByUpdatedDate)
               if(url.sortc === 'descending') {
                   reps= reps.reverse()
               }
-              console.log(reps)
           }
-          console.log(reps)
           for (let item in reps) {
               ret += "<div class='card'  >" + "<div class='container'>" +
                   `<a href = ${reps[item].svn_url}><h4>${reps[item].name}</h4></a>` +
@@ -211,17 +195,9 @@
           document.getElementById('flex').innerHTML = ret
           return data;
       })
-  console.log(check)
 </script>
 <script defer>
-    function fun1() {
-        if (document.getElementById('starred').checked) {
-            document.getElementById('starred_value').style.display = 'flex'
-        }
-        else {
-            document.getElementById('starred_value').style.display = 'none'
-        }
-    }
+
     function starred1() {
         if(document.getElementById('starred').checked){
             document.getElementById('starred_value').style.display = 'flex'
@@ -246,47 +222,6 @@
             document.getElementById('language_value').style.display = 'none'
         }
     }
-  //   $('#starred_value,#updated_value,#language_value').hide()
-  // $("#starred").on("change", function() {
-  //   if($('#starred').is(':checked')) {
-  //     console.log('adsasdasdqwe')
-  //   }
-  //   else{
-  //     $('#starred_value').css('display', 'none')
-  //   }
-  // });
-  //   $("#starred").on("change", function() {
-  //     if($('#starred').is(':checked')) {
-  //         $('#starred_value').css('display', 'flex')
-  //     }
-  //     else{
-  //         $('#starred_value').css('display', 'none')
-  //     }
-  //   })
-  //   $("#updated").on("change", function() {
-  //       if($('#updated').is(':checked')) {
-  //           $('#updated_value').css('display', 'flex')
-  //       }
-  //       else{
-  //           $('#updated_value').css('display', 'none')
-  //       }
-  //   });
-  //   $("#type").on("change", function() {
-  //       if($('#type').is(':checked')) {
-  //           $('#type_value').css('display', 'flex')
-  //       }
-  //       else{
-  //           $('#type_value').css('display', 'none')
-  //       }
-  //   });
-  //   $("#language").on("change", function() {
-  //       if($('#language').is(':checked')) {
-  //           $('#language_value').css('display', 'flex')
-  //       }
-  //       else{
-  //           $('#language_value').css('display', 'none')
-  //       }
-  //   });
 
 
 </script>

@@ -16,35 +16,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>check</find>
-      <find>che</find>
-      <find>&lt;a&gt;</find>
-      <find>console.log(document.getElementsByName('starred'))</find>
-      <find>var</find>
-      <find>radi</find>
-      <find>consol</find>
-      <find>exphbs</find>
-      <find>document.cookie</find>
-      <find>Handlebars</find>
-      <find>cons</find>
-      <find>title</find>
-      <find>url</find>
-      <find>conso</find>
-      <find>type</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>checkbox</replace>
-      <replace>let</replace>
-    </replaceStrings>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="1920" />
-    <option name="y" value="-2" />
-    <option name="width" value="958" />
-    <option name="height" value="1082" />
-  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
