@@ -17,7 +17,9 @@
             justify-content: space-around;
             align-content: stretch;
         }
-
+        .value{
+            display: none;
+        }
         .card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             transition: 0.3s;
@@ -36,24 +38,21 @@
     </style>
 </head>
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <a href="#"><h2></h2></a>
-<script>
-
-</script>
 <h4 id="title"><b></b></h4>
 <p id ='amount'></p>
+<input type="checkbox" id="one" onchange="fun1()">
 <div id="form">
     <form id = 'form1' action = '/getInfo' method="get">
     <p><b>Filter</b></p>
     <p><input id ='Issues'name="issues" type="checkbox"> Has open issues</p>
     <p><input id ='Topics'name="topics" type="checkbox"> Has Topics</p>
-    <p><input id ='starred'name="starred" type="checkbox"> Starred</p>
+    <p><input id ='starred'name="starred" type="checkbox" onchange="starred1()"> Starred</p>
     <p><input id='starred_value' name="starred_value" class="value" ></p>
-    <p><input id="updated" name="updated" type="checkbox">Updated</p>
+    <p><input id="updated" name="updated" type="checkbox" onchange="updated1()"> Updated</p>
     <p><input id='updated_value' name="updated_value" type="date" class="value"></p>
-    <p><input id="fork" name="fork" type="checkbox">Fork</p>
-    <p><input id="language" name="language" type="checkbox">Language</p>
+    <p><input id="fork" name="fork" type="checkbox" >Fork</p>
+    <p><input id="language" name="language" type="checkbox" onchange="language1()">Language</p>
     <p><input id='language_value' name="language_value" class="value"></p>
         <p><b>Sort by:</b></p>
         <p><input name="sort" type="radio" value="name"> Name</p>
@@ -77,8 +76,6 @@
     <p>Updated at: {{updated_at}}</p>
     <p>Stars: {{stargazers_count}}</p>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script defer>
   function getAllUrlParams(url) {
     var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
@@ -131,92 +128,124 @@
       return first-second
   }
   url = getAllUrlParams(window.location.href)
-  fetch('/json', function (data,status) {
-      console.log(data)
-  })
-  $.get('/json', function (data, status) {
-      let user = data.userName
-      var document1 = document.getElementById('form').innerHTML.toString().replace('getInfo', `getInfo/${data.userName}`)
-      document.getElementById('form').innerHTML = document1
-      document.getElementById('title').innerText = data.userName
-      document.getElementById('amount').innerText = 'Reps:' + data.reps.length
-      console.log(data)
-      let check = [1,2,3,4]
-      check = check.reverse()
-      console.log(check)
-      let ret = ''
-      let reps = data.reps
-      if (url.issues) {
-          reps = reps.filter(item => item.has_issues === true)
-        }
-      if(url.topics){
-          reps = reps.filter(item => item.topics !== [])
-        }
-      if(url.topics){
-          reps = reps.filter(item => item.stargazers_count > url.starred_value)
-        }
-      if(url.updated){
-          reps.forEach(function (item) {
-            item.updated_at = new Date(item.updated_at)
-          })
-          console.log(reps[0].updated_at)
-          reps = reps.filter(item => item.updated_at > new Date(url.updated_value))
-        }
-      if(url.fork)
-        {
-          reps = reps.filter(item => item.fork === true)
-        }
-      if(url.language){
-          reps = reps.filter(item => item.language !== null && item.language.toLowerCase() === 'javascript')
-        }
-      if(url.sort === 'name'){
-          reps.sort(sortByName)
-          if(url.sortc === 'descending') {
-              reps= reps.reverse()
+  async function fetch1(){
+      let check = await fetch('/json').then(response => {return response})
+      return check
+  }
+  let check = fetch('/json',{method:'GET'}).then(response => response.text())
+      .then(data => {
+          data = JSON.parse(data);
+          let user = data.userName
+          console.log(user)
+          var document1 = document.getElementById('form').innerHTML.toString().replace('getInfo', `getInfo/${data.userName}`)
+          document.getElementById('form').innerHTML = document1
+          document.getElementById('title').innerText = data.userName
+          document.getElementById('amount').innerText = 'Reps:' + data.reps.length
+          console.log(data)
+          let ret = ''
+          let reps = data.reps
+          if (url.issues) {
+              reps = reps.filter(item => item.has_issues === true)
           }
-      }
-      if(url.sort === 'stars'){
-          reps.sort(sortByStars)
-          console.log(url)
-          if(url.sortc === 'descending') {
-              console.log('check')
+          if(url.topics){
+              reps = reps.filter(item => item.topics !== [])
+          }
+          if(url.topics){
+              reps = reps.filter(item => item.stargazers_count > url.starred_value)
+          }
+          if(url.updated){
+              reps.forEach(function (item) {
+                  item.updated_at = new Date(item.updated_at)
+              })
+              console.log(reps[0].updated_at)
+              reps = reps.filter(item => item.updated_at > new Date(url.updated_value))
+          }
+          if(url.fork)
+          {
+              reps = reps.filter(item => item.fork === true)
+          }
+          if(url.language){
+              reps = reps.filter(item => item.language !== null && item.language.toLowerCase() === 'javascript')
+          }
+          if(url.sort === 'name'){
+              reps.sort(sortByName)
+              if(url.sortc === 'descending') {
+                  reps= reps.reverse()
+              }
+          }
+          if(url.sort === 'stars'){
+              reps.sort(sortByStars)
+              console.log(url)
+              if(url.sortc === 'descending') {
+                  console.log('check')
+                  console.log(reps)
+                  reps= reps.reverse()
+                  console.log(reps)
+              }
+          }
+          if(url.sort === 'open_issues'){
+              reps.sort(sortByOpenIssues)
+              if(url.sortc === 'descending') {
+                  reps= reps.reverse()
+              }
+          }
+          if(url.sort === 'updated_date'){
               console.log(reps)
-              reps= reps.reverse()
+              reps.sort(sortByUpdatedDate)
+              if(url.sortc === 'descending') {
+                  reps= reps.reverse()
+              }
               console.log(reps)
           }
-      }
-      if(url.sort === 'open_issues'){
-          reps.sort(sortByOpenIssues)
-          if(url.sortc === 'descending') {
-              reps= reps.reverse()
-          }
-      }
-      if(url.sort === 'updated_date'){
           console.log(reps)
-          reps.sort(sortByUpdatedDate)
-          if(url.sortc === 'descending') {
-              reps= reps.reverse()
+          for (let item in reps) {
+              ret += "<div class='card'  >" + "<div class='container'>" +
+                  `<a href = ${reps[item].svn_url}><h4>${reps[item].name}</h4></a>` +
+                  `<p>Description: ${reps[item].description} </p>` +
+                  `<p>Fork: ${reps[item].fork}</p>` +
+                  `<p>Language: ${reps[item].language}</p>` +
+                  `<p>Updated at: ${reps[item].updated_at}</p>` +
+                  `<p>Stars: ${reps[item].stargazers_count}</p>` +
+                  "</div>" + "</div></a>"
           }
-      console.log(reps)
-      }
-        console.log(reps)
-      for (let item in reps) {
-        ret += "<div class='card'  >" + "<div class='container'>" +
-          `<a href = ${reps[item].svn_url}><h4>${reps[item].name}</h4></a>` +
-          `<p>Description: ${reps[item].description} </p>` +
-          `<p>Fork: ${reps[item].fork}</p>` +
-          `<p>Language: ${reps[item].language}</p>` +
-          `<p>Updated at: ${reps[item].updated_at}</p>` +
-          `<p>Stars: ${reps[item].stargazers_count}</p>` +
-          "</div>" + "</div></a>"
-      }
-      document.getElementById('flex').innerHTML = ret
-
-
-
-  });
+          document.getElementById('flex').innerHTML = ret
+          return data;
+      })
+  console.log(check)
 </script>
 <script defer>
+    function fun1() {
+        if (document.getElementById('starred').checked) {
+            document.getElementById('starred_value').style.display = 'flex'
+        }
+        else {
+            document.getElementById('starred_value').style.display = 'none'
+        }
+    }
+    function starred1() {
+        if(document.getElementById('starred').checked){
+            document.getElementById('starred_value').style.display = 'flex'
+        }
+        else {
+            document.getElementById('starred_value').style.display = 'none'
+        }
+    }
+    function updated1() {
+        if(document.getElementById('updated').checked){
+            document.getElementById('updated_value').style.display = 'flex'
+        }
+        else {
+            document.getElementById('updated_value').style.display = 'none'
+        }
+    }
+    function language1() {
+        if(document.getElementById('language').checked){
+            document.getElementById('language_value').style.display = 'flex'
+        }
+        else {
+            document.getElementById('language_value').style.display = 'none'
+        }
+    }
   //   $('#starred_value,#updated_value,#language_value').hide()
   // $("#starred").on("change", function() {
   //   if($('#starred').is(':checked')) {
